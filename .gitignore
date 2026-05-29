@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Data
+data/raw/
+data/processed/
+
+# Docker
+postgres_data/
+
+# Testing
+.pytest_cache/
+
+# Local configs
+.env.local
