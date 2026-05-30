@@ -15,7 +15,7 @@ class SearchService:
             self,
             query_text: str,
             match_threshold: float = 0.40,
-            match_count: int = 4
+            match_count: int = 6
 
     ) -> List[Dict[str, Any]]:
 
