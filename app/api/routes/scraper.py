@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, BackgroundTasks, status
 from langchain_text_splitters import TextSplitter
 from torch.nn.functional import embedding
-
+from app.core.security import get_current_user
 from app.providers.embeddings_provider import EmbeddingProvider
 from app.services.indexer_service import IndexerService
 from app.providers.scraper.bbva_scraper import BBVAScraper
@@ -47,7 +47,9 @@ def get_indexer_service() -> IndexerService:
 @router.post("/trigger", status_code=status.HTTP_202_ACCEPTED)
 async def trigger_scraping(
         background_tasks: BackgroundTasks,
+        current_user=Depends(get_current_user),
         indexer_service: IndexerService = Depends(get_indexer_service)
+
 ):
     """
     Endpoint administrativo para disparar la indexación y vectorización
