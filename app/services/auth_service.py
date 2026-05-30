@@ -41,8 +41,6 @@ class InternalUserService:
                 detail="No se pudo crear el usuario"
             )
 
-        logger.info(f"Creando usuario: {auth_user}")
-
         internal_user = await InternalUserRepository.create_internal_user({
             "auth_user_id": auth_user.id,
             "name": user_data["name"],

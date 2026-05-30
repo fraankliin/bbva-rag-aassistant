@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.routes.health import router as health_router
-from app.api.routes.internal_users_routes import router as internal_users_router
+from app.api.routes.internal_users import router as internal_users_router
+from app.api.routes.scraper import router as scraper_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -26,3 +27,4 @@ app.add_middleware(
 # Routers
 app.include_router(health_router)
 app.include_router(internal_users_router)
+app.include_router(scraper_router)

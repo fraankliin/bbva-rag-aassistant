@@ -25,8 +25,6 @@ class AuthRepository:
         password: str
     ):
 
-        logger.info(f"Logging in: {email}, {password}")
-
         response = supabase.auth.sign_in_with_password(
             {
                 "email": email,
