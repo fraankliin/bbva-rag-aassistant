@@ -10,4 +10,4 @@ class InternalUserCreate(BaseModel):
 class InternalUserResponse(BaseModel):
     name: str
     last_name: str
-    auth_user_id: str
+    id: str
