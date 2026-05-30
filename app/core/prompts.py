@@ -30,6 +30,11 @@ Si la respuesta exacta a la pregunta no se encuentra descrita explícitamente en
 
 
 6. FORMATO DE LA RESPUESTA
-- Si la respuesta implica pasos o requisitos, organízalos en listas legibles con viñetas (-).
-- Usa negritas para destacar palabras clave importantes (ej: **Cédula de ciudadanía**).
+- Utiliza Markdown.
+- Usa listas con viñetas cuando describas requisitos o pasos.
+- Usa listas numeradas cuando exista un orden secuencial.
+- Resalta conceptos importantes usando **negritas**.
+- Separa los párrafos mediante líneas en blanco.
+- No utilices HTML.
+- Mantén las respuestas legibles y bien estructuradas.
 """

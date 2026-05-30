@@ -71,8 +71,7 @@ class ChatService:
 
             #Extraer memoria histórica formateada (Tabla 'messages')
             chat_history_text = self.history_service.get_formatted_chat_history(
-                conversation_id=active_conv_id,
-                limit=5)
+                conversation_id=active_conv_id)
 
 
             # 2. Definición de instrucciones del sistema

@@ -1,4 +1,6 @@
 import logging
+from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.providers.embeddings_provider import EmbeddingProvider
@@ -28,14 +30,10 @@ def get_chat_service() -> ChatService:
         # proveedor de IA.
         llm_provider = GeminiLLMProvider()
 
-        # repositorio historial
-        history_repository = HistoryRepository()
 
-        # servicio historial
-        history_service = HistoryService(history_repository)
 
         # 3.orquestador del chat
-        return ChatService(search_service=search_service, llm_provider=llm_provider, history_service=history_service)
+        return ChatService(search_service=search_service, llm_provider=llm_provider, history_service=get_history_service())
 
     except Exception as e:
         logger.error(f"Error al inicializar las dependencias de ChatService: {str(e)}")
@@ -43,6 +41,15 @@ def get_chat_service() -> ChatService:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error interno al configurar el motor de inteligencia artificial."
         )
+
+def get_history_service() :
+    # repositorio historial
+    history_repository = HistoryRepository()
+
+    # servicio historial
+    history_service = HistoryService(history_repository)
+
+    return history_service
 
 
 @router.post(
@@ -76,3 +83,52 @@ async def ask_assistant(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error en el procesamiento de la respuesta: {str(e)}"
         )
+
+
+@router.get(
+    "/conversations",
+    status_code=status.HTTP_200_OK,
+    summary="Listar conversaciones del usuario para el sidebar"
+)
+async def list_conversations(
+        history_service: HistoryService = Depends(get_history_service),
+        current_user: Any = Depends(get_current_user)
+):
+    try:
+        user_id_str = str(current_user.id)
+        return history_service.list_conversations_for_sidebar(user_id=user_id_str)
+    except Exception as e:
+        logger.error(f"Error al listar conversaciones: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error en el historial: {str(e)}")
+
+
+@router.get(
+    "/conversations/{conversation_id}",
+    status_code=status.HTTP_200_OK,
+    summary="Obtener el detalle de una conversación específica"
+)
+async def get_conversation(
+        conversation_id: str,
+        history_service: HistoryService = Depends(get_history_service),
+        current_user: Any = Depends(get_current_user)
+):
+    try:
+        user_id_str = str(current_user.id)
+        result = history_service.get_full_conversation_history(
+            conversation_id=conversation_id,
+            user_id=user_id_str
+        )
+
+        # Manejo de respuestas condicionales del servicio
+        if "error" in result:
+            if result["error"] == "not_found":
+                raise HTTPException(status_code=404, detail=result["message"])
+            elif result["error"] == "unauthorized":
+                raise HTTPException(status_code=403, detail=result["message"])
+
+        return result
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        logger.error(f"Error al recuperar la conversación {conversation_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al procesar el hilo: {str(e)}")
