@@ -42,7 +42,7 @@ class InternalUserService:
             )
 
         internal_user = await InternalUserRepository.create_internal_user({
-            "auth_user_id": auth_user.id,
+            "id": auth_user.id,
             "name": user_data["name"],
             "last_name": user_data["last_name"]
         })
