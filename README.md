@@ -22,10 +22,10 @@ Siga estos comandos secuenciales para clonar ambos repositorios independientes e
 mkdir bbva-assistant && cd bbva-assistant
 
 # 2. Clonar el repositorio del Backend (FastAPI)
-git clone [https://github.com/fraankliin/bbva-rag-aassistant.git](https://github.com/fraankliin/bbva-rag-aassistant.git) bbva-rag-assistant
+git clone https://github.com/fraankliin/bbva-rag-aassistant.git
 
 # 3. Clonar el repositorio del Frontend (Nginx Web Server)
-git clone [https://github.com/fraankliin/front-assistant-bbva.git](https://github.com/fraankliin/front-assistant-bbva.git) front-assitant-bbva
+git clone https://github.com/fraankliin/front-assistant-bbva.git
 
 # 4. Acceder al directorio raíz del Backend donde reside el orquestador
 cd bbva-rag-assistant
