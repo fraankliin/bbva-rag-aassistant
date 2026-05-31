@@ -63,6 +63,7 @@ class IndexerService:
                     doc_record = self.repo.update_document(existing_doc["id"], payload_doc)
                     doc_id = existing_doc["id"]
 
+                    continue
                 else:
                     logger.info(f"Registrando nuevo documento padre en DB.")
                     doc_record = self.repo.insert_document(payload_doc)
