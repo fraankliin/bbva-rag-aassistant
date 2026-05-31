@@ -18,7 +18,7 @@ services:
 
   frontend:
     build:
-      context: ../front-assitant-bbva
+      context: ../front-assistant-bbva
       dockerfile: Dockerfile
     ports:
       - "5500:80"
